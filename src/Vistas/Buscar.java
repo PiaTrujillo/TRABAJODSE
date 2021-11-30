@@ -3,11 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entradacine;
+package Vistas;
+
+import Modelo.Entrada;
+import controlador.Registro;
+import java.util.Date;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author gir15
+ * @author Pía Trujillo / José Ignacio Gutiérrez
  */
 public class Buscar extends javax.swing.JFrame {
 
@@ -27,22 +33,24 @@ public class Buscar extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
-        jtxt_buscarNombre = new javax.swing.JTextField();
+        jtxt_alias = new javax.swing.JTextField();
         jbtn_buscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtbl_datos = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        jbtn_volver = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Buscar Película");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel2.setText("Cine World");
-
-        jtxt_buscarNombre.setText("Ingrese Alias");
-        jtxt_buscarNombre.addActionListener(new java.awt.event.ActionListener() {
+        jtxt_alias.setText("Ingrese Alias");
+        jtxt_alias.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtxt_aliasFocusGained(evt);
+            }
+        });
+        jtxt_alias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxt_buscarNombreActionPerformed(evt);
+                jtxt_aliasActionPerformed(evt);
             }
         });
 
@@ -55,110 +63,182 @@ public class Buscar extends javax.swing.JFrame {
 
         jtbl_datos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Título", "Alias", "Estreno", "Entradas", "Precio", "Disponible"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jtbl_datos);
 
-        jLabel1.setText("* Alias corresponde a las 3 primeras letras de cada película");
+        jbtn_volver.setText("Volver");
+        jbtn_volver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtn_volverActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(100, 100, 100))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(jtxt_buscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addComponent(jbtn_buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabel1)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGap(75, 75, 75)
+                .addComponent(jtxt_alias, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbtn_buscar)
+                .addGap(72, 72, 72))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(223, 223, 223)
+                .addComponent(jbtn_volver)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxt_buscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtxt_alias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtn_buscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(jbtn_volver)
                 .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbtn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_buscarActionPerformed
+    private void jtxt_aliasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxt_aliasActionPerformed
         // TODO add your handling code here:
+    }//GEN-LAST:event_jtxt_aliasActionPerformed
+
+    private void jbtn_volverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_volverActionPerformed
+        
+        dispose();
+        
+    }//GEN-LAST:event_jbtn_volverActionPerformed
+
+    private void jtxt_aliasFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxt_aliasFocusGained
+        
+        this.jtxt_alias.setText("");
+        
+    }//GEN-LAST:event_jtxt_aliasFocusGained
+
+    private void jbtn_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn_buscarActionPerformed
+        
+        String titulo, alias;
+        int precio, cantidad;
+        boolean disponible;
+        Date fecha;
+        
+        Registro reg = new Registro();
+        
+        DefaultTableModel modelo = (DefaultTableModel)this.jtbl_datos.getModel();
+        
+        try {
+            alias = this.jtxt_alias.getText();
+        } catch (Exception e) {
+            alias = "";
+        }
+        
+        modelo.setRowCount(0);
+        
+        if (alias == ""){ //listar a todos
+            List<Entrada> lista = reg.buscarTodos();
+            
+            for (Entrada entrada : lista) {
+                titulo = entrada.getTitulo();
+                alias = entrada.getAlias();
+                fecha = entrada.getFuncion();
+                cantidad = entrada.getCantidadEntrada();
+                precio = entrada.getPrecio();
+                disponible = entrada.isDisponible();
+                
+                modelo.addRow(new Object[]{titulo, alias, fecha, cantidad, precio, disponible});
+            }
+        }
+        else{ //buscar por alias
+            
+            Entrada entrada = reg.buscarPorAlias(alias);
+                titulo = entrada.getTitulo();
+                alias = entrada.getAlias();
+                fecha = entrada.getFuncion();
+                cantidad = entrada.getCantidadEntrada();
+                precio = entrada.getPrecio();
+                disponible = entrada.isDisponible();
+                
+                modelo.addRow(new Object[]{titulo, alias, fecha, cantidad, precio, disponible});
+        }    
+        
+        
     }//GEN-LAST:event_jbtn_buscarActionPerformed
 
-    private void jtxt_buscarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxt_buscarNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtxt_buscarNombreActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Buscar().setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(Buscar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Buscar().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbtn_buscar;
+    private javax.swing.JButton jbtn_volver;
     private javax.swing.JTable jtbl_datos;
-    private javax.swing.JTextField jtxt_buscarNombre;
+    private javax.swing.JTextField jtxt_alias;
     // End of variables declaration//GEN-END:variables
 }
